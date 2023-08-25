@@ -1,12 +1,18 @@
-I#!/usr/bin/python3
-I"""
-0-main
-"""
-import sys
+#!/usr/bin/python3
+"""function module"""
+import json
+import requests
 
-if __name__ == '__main__':
-    number_of_subscribers = __import__('0-subs').number_of_subscribers
-    if len(sys.argv) < 2:
-        print("Please pass an argument for the subreddit to search.")
+
+def number_of_subscribers(subreddit):
+    url = "https://www.reddit.com/dev/api/r/{:s}/about".format(subreddit)
+    header = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:109.0)\
+    Gecko/20100101 Firefox/115.0"}
+
+    response = requests.get(url, headers=header)
+    if response.status_code == 200:
+        data = response.json()
+        subscribers = int(data['data']['subscribers'])
+        return subscribers
     else:
-        print("{:d}".format(number_of_subscribers(sys.argv[1])))
+        return 0int("{:d}".format(number_of_subscribers(sys.argv[1])))
